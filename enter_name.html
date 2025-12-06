@@ -1,0 +1,18 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Enter IGN - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>Enter In-Game Name</strong><div class="small-muted">Provide your Free Fire IGN</div>
+    <input class="input" id="ign" placeholder="Your IGN">
+    <button class="btn" onclick="submitIgn()">Confirm</button>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function submitIgn(){ const v=document.getElementById('ign').value.trim(); if(!v){alert('Enter IGN');return} APP.submitIGN(v) }
+</script></body></html>

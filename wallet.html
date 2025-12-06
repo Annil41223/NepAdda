@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Wallet - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>Wallet</strong><div class="small-muted">Manage your points</div>
+    <div style="margin-top:12px" id="wallet_info"></div>
+    <div style="margin-top:12px"><button class="btn" onclick="location.href='wallet_load.html'">Load Points</button><div style="height:8px"></div><button class="btn" style="background:#333" onclick="location.href='wallet_withdraw.html'">Withdraw Money</button></div>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function renderWallet(){
+  const u=APP.getCurrentUser(); const el=document.getElementById('wallet_info')
+  if(!u){ el.innerHTML='<div class="small-muted">Login to view wallet</div>'; return }
+  el.innerHTML = `<div>Balance: <strong>${u.balance}</strong></div><div class="small-muted">1 Point = 1 NPR</div>`
+}
+document.addEventListener('DOMContentLoaded', renderWallet)
+</script></body></html>

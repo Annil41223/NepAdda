@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Account - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><div style="display:flex;align-items:center;gap:12px"><img src="assets/avatar.png" style="width:64px;height:64px;border-radius:12px"><div><strong id="acc_name">User</strong><div class="small-muted" id="acc_email">email</div></div></div>
+    <div style="margin-top:12px" id="acc_stats"></div>
+    <div style="margin-top:12px"><button class="btn" onclick="location.href='login.html'">Edit Profile</button><div style="height:8px"></div><button class="btn" style="background:#333" onclick="doLogout()">Logout</button></div>
+  </div>
+  <div class="card"><strong>Match History</strong><div id="history_list" class="small-muted"></div></div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function renderAccount(){
+  const u=APP.getCurrentUser(); if(!u){ alert('Login first'); window.location.href='login.html'; return }
+  document.getElementById('acc_name').innerText = u.username
+  document.getElementById('acc_email').innerText = u.email
+  document.getElementById('acc_stats').innerHTML = `Balance: <strong>${u.balance}</strong>`
+  const data = APP.getData(); const hist = data.joins[u.email]||[]
+  const list=document.getElementById('history_list'); list.innerHTML=''
+  hist.forEach(h=>{ const m = APP.getMatchById(h.matchId); list.innerHTML += `<div class="small-muted"># ${m?m.title:'-'} • ${h.ign||'-'} • ${new Date(h.joinedAt).toLocaleString()}</div>` })
+}
+function doLogout(){ APP.logout() }
+document.addEventListener('DOMContentLoaded', renderAccount)
+</script></body></html>

@@ -1,0 +1,29 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Load Points - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>Load Points</strong><div class="small-muted">1 Point = 1 NPR</div>
+    <input class="input" id="load_amount" placeholder="Amount (points)">
+    <input class="input" id="load_remarks" placeholder="Remarks (optional)">
+    <input type="file" id="load_file" class="file-input" onchange="handleFileUpload(event)">
+    <label class="round-btn center" for="load_file">Upload Screenshot</label>
+    <div style="height:8px"></div>
+    <button class="btn" onclick="doLoad()">Confirm</button>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+let uploadedFile=null
+function handleFileUpload(e){ const f=e.target.files[0]; uploadedFile=f?f.name:null; alert('File selected: '+uploadedFile) }
+function doLoad(){
+  const a = Number(document.getElementById('load_amount').value)
+  const r = document.getElementById('load_remarks').value
+  if(!a || a<=0){ alert('Enter amount'); return }
+  APP.submitLoad(a,r, uploadedFile||'screenshot.png')
+}
+</script></body></html>

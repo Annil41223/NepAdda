@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Match Details - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container" id="details_area">
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function renderDetails(){
+  const params = new URLSearchParams(location.search)
+  const mid = params.get('mid') || sessionStorage.getItem('lastViewedMatch')
+  if(!mid){ document.getElementById('details_area').innerHTML='<div class="card">No match selected</div>'; return }
+  sessionStorage.setItem('lastViewedMatch', mid)
+  const m = APP.getMatchById(mid)
+  if(!m) { document.getElementById('details_area').innerHTML='<div class="card">Match not found</div>'; return }
+  document.getElementById('details_area').innerHTML = `
+    <div class="card"><strong>${m.title}</strong><div class="small-muted">${m.mode} • ${m.type}</div>
+      <div style="margin-top:8px"><div class="small-muted">Entry Fee: ${m.entryFee}</div><div class="small-muted">Prize Pool: ${m.prize}</div></div>
+      <div style="margin-top:10px;display:flex;gap:8px">
+        <div class="card" style="flex:1">Room ID <div class="small-muted">${m.roomId} <button class="round-btn small" onclick="copyText('${m.roomId}')">Copy</button></div></div>
+        <div class="card" style="flex:1">Password <div class="small-muted">${m.password} <button class="round-btn small" onclick="copyText('${m.password}')">Copy</button></div></div>
+      </div>
+      <div style="margin-top:8px" class="center-vert"><div>Your Position: --</div><div style="flex:1"></div><div class="timer" id="countdown">--:--:--</div></div>
+    </div>
+  `
+  startCountdown(m.endsAt, document.getElementById('countdown'))
+}
+function copyText(t){ navigator.clipboard?.writeText(t); alert('Copied') }
+function startCountdown(ts, el){
+  function tick(){ const diff = Math.max(0, ts - Date.now()); const s=Math.floor(diff/1000)%60; const m=Math.floor(diff/60000)%60; const h=Math.floor(diff/3600000); el.innerText = h+':'+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); if(diff<=0) clearInterval(iv) }
+  tick(); const iv=setInterval(tick,1000)
+}
+document.addEventListener('DOMContentLoaded', renderDetails)
+</script></body></html>

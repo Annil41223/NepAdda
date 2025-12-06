@@ -1,0 +1,25 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Games - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>Available Matches</strong><div class="small-muted">Tap join to play</div></div>
+  <div id="games_list" class="container"></div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function renderGames(){
+  const data=APP.getData(); const list=document.getElementById('games_list'); list.innerHTML=''
+  data.matches.forEach(m=>{
+    const d = document.createElement('div'); d.className='card match-card'
+    d.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${m.title}</strong><div class="small-muted">${m.mode}</div></div><div class="small-muted">${m.time}</div></div>
+      <div class="center-vert"><div>Entry: ${m.entryFee}</div><div style="flex:1"></div><button class="round-btn" onclick="APP.joinMatch('${m.id}')">Join</button></div>`
+    list.appendChild(d)
+  })
+}
+document.addEventListener('DOMContentLoaded', renderGames)
+</script></body></html>

@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>My Games - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>My Joined Matches</strong><div id="joined_list" class="small-muted"></div></div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+function renderJoined(){
+  const u=APP.getCurrentUser(); if(!u){ alert('Login'); window.location.href='login.html'; return }
+  const data=APP.getData(); const list = document.getElementById('joined_list') ; list.innerHTML=''
+  const arr = data.joins[u.email]||[]
+  arr.forEach(j=>{
+    const m=APP.getMatchById(j.matchId)
+    list.innerHTML += `<div class="card small-muted">${m?m.title:'-'} • ${j.ign||'-'} • ${new Date(j.joinedAt).toLocaleString()} <div style="margin-top:6px"><button class="round-btn" onclick="location.href='match_details.html?mid=${j.matchId}'">View</button></div></div>`
+  })
+}
+document.addEventListener('DOMContentLoaded', renderJoined)
+</script></body></html>

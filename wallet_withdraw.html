@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Withdraw - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card"><strong>Withdraw Money</strong><div class="small-muted">Minimum 100</div>
+    <input class="input" id="wd_amount" placeholder="Amount (NPR)">
+    <input type="file" id="wd_file" class="file-input" onchange="handleWFile(event)">
+    <label class="round-btn center" for="wd_file">Upload QR Screenshot</label>
+    <div style="height:8px"></div>
+    <button class="btn" onclick="doWithdraw()">Confirm</button>
+  </div>
+</div>
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+<script src="script.js"></script>
+<script>
+let wfile=null
+function handleWFile(e){ const f=e.target.files[0]; wfile=f?f.name:null; if(wfile) alert('File selected') }
+function doWithdraw(){ const a=Number(document.getElementById('wd_amount').value); if(!a){alert('Enter amount');return}; APP.submitWithdraw(a,wfile||'qr.png') }
+</script></body></html>

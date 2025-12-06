@@ -1,0 +1,65 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Login - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card center"><div style="width:100%">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div class="logo">LigaX</div>
+      <div class="small-muted">Play Solo Tournaments</div>
+    </div>
+    <div style="margin-top:8px">
+      <div style="display:flex;gap:6px;margin-top:12px">
+        <button id="tab-login" class="round-btn" style="flex:1">Login</button>
+        <button id="tab-signup" class="round-btn" style="flex:1">Signup</button>
+        <button id="tab-kyc" class="round-btn" style="flex:1">Register</button>
+      </div>
+      <div id="tab-area" style="margin-top:12px"></div>
+    </div>
+  </div></div>
+
+  <div style="height:50vh"></div>
+
+  <div class="bottom-nav">
+    <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+    <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+    <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+    <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+  </div>
+</div>
+<script src="script.js"></script>
+<script>
+// tabs
+const area=document.getElementById('tab-area')
+function showLogin(){ area.innerHTML = `
+  <input class="input" id="login_email" placeholder="Username or Email">
+  <input class="input" id="login_pass" placeholder="Password" type="password">
+  <button class="btn" onclick="doLogin()">Login</button>
+` }
+function showSignup(){ area.innerHTML = `
+  <input class="input" id="su_username" placeholder="Username">
+  <input class="input" id="su_email" placeholder="Email">
+  <input class="input" id="su_phone" placeholder="Phone">
+  <input class="input" id="su_pass" placeholder="Password" type="password">
+  <button class="btn" onclick="doSignup()">Signup</button>
+` }
+function showKyc(){ area.innerHTML = `
+  <input class="input" id="kyc_name" placeholder="Full Name">
+  <input class="input" id="kyc_phone" placeholder="Phone">
+  <input class="input" id="kyc_uid" placeholder="Game UID">
+  <button class="btn" onclick="doKyc()">Submit</button>
+` }
+document.getElementById('tab-login').onclick=showLogin
+document.getElementById('tab-signup').onclick=showSignup
+document.getElementById('tab-kyc').onclick=showKyc
+showLogin()
+
+function doSignup(){
+  const u = {username:document.getElementById('su_username').value,email:document.getElementById('su_email').value,phone:document.getElementById('su_phone').value,password:document.getElementById('su_pass').value,fullname:'',gameuid:''}
+  const r = APP.register(u)
+  if(!r.ok) alert(r.msg); else { alert('Signup success. Please login.'); showLogin() }
+}
+function doLogin(){
+  const r = APP.login({email:document.getElementById('login_email').value,password:document.getElementById('login_pass').value})
+  if(!r.ok) alert(r.msg); else window.location.href='home.html'
+}
+function doKyc(){ alert('KYC submitted (simulation). Please finish signup first.'); }
+</script></body></html>

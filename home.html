@@ -1,0 +1,54 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home - LigaX</title><link rel="stylesheet" href="style.css"></head><body>
+<div class="container">
+  <div class="card top-banner">
+    <div class="carousel">
+      <img src="assets/banner1.jpg"><img src="assets/banner2.jpg"><img src="assets/banner3.jpg"><img src="assets/banner4.jpg">
+    </div>
+  </div>
+
+  <div class="quick-access">
+    <div class="points-box">Points: <span id="points_val">0</span></div>
+    <div class="btns">
+      <div class="round-btn" onclick="location.href='mygames.html'">My Games</div>
+      <div class="round-btn" onclick="location.href='wallet_withdraw.html'">Withdraw</div>
+      <div class="round-btn" onclick="location.href='wallet_load.html'">Load Points</div>
+    </div>
+  </div>
+
+  <div style="margin-top:12px" class="card">
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div><strong>Admin Matchroom</strong><div class="small-muted">Join the latest matches</div></div>
+      <div class="small-muted">Scroll ↓</div>
+    </div>
+    <div class="match-list" id="match_list"></div>
+  </div>
+
+</div>
+
+<div class="bottom-nav">
+  <div class="nav-item" data-to="home.html" onclick="location.href='home.html'">Home</div>
+  <div class="nav-item" data-to="games.html" onclick="location.href='games.html'">Games</div>
+  <div class="nav-item" data-to="wallet.html" onclick="location.href='wallet.html'">Wallet</div>
+  <div class="nav-item" data-to="account.html" onclick="location.href='account.html'">Account</div>
+</div>
+
+<script src="script.js"></script>
+<script>
+function renderHome(){
+  const user = APP.getCurrentUser()
+  document.getElementById('points_val').innerText = user? user.balance : '0'
+  const data = APP.getData()
+  const list = document.getElementById('match_list')
+  list.innerHTML=''
+  data.matches.forEach(m=>{
+    const el = document.createElement('div'); el.className='match-card card'
+    el.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${m.title}</strong><div class="small-muted">${m.mode}</div></div><div class="small-muted">${m.time}</div></div>
+      <div class="center-vert"><div class="small-muted">Entry: ${m.entryFee}</div><div style="flex:1"></div><button class="round-btn" onclick="tryJoin('${m.id}')">Join Now</button></div>`
+    list.appendChild(el)
+  })
+}
+function tryJoin(id){ APP.joinMatch(id) }
+
+document.addEventListener('DOMContentLoaded', ()=>{ renderHome() })
+</script></body></html>
